@@ -8,10 +8,26 @@ SSUMC 8기 Spring Boot 스터디 B조
 
 ## 📁 디렉토리 구조
 ```bash
+├─.github
+│  └─PULL_REQUEST_TEMPLATE
+│  └─ISSUE_TEMPLATE
+├─README.md
+├─docs
+│  └─chapter1
+            Ch01Keyword.md
+            Ch01Keyword.txt
+└─src
+    ├─mission
+    │  └─chapter1
+    └─practice
+        └─chapter1
 ``` 
 
 ## 🌳 branch 규칙
 ```bash
+├─main
+    ├─angela/main
+    │  └─angela/#1
 ``` 
 
 1. `닉네임/main 브랜치`가 기본 브랜치로 pr 보낼 때 root 브랜치(main 브랜치)가 아닌 닉네임/main 브랜치로 올립니다.
