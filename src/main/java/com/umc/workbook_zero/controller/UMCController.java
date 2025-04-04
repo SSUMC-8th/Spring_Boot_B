@@ -10,6 +10,6 @@ public class UMCController {
 
     @GetMapping("/umc")
     public String findUMC() {
-        return "Good Luck!";
+        return "Good Luck! ";
     }
 }
