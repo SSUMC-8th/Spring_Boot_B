@@ -1,0 +1,10 @@
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mission_db
+    username: root
+    password: 3mirsammoolsom*
+  application:
+    name:sping
