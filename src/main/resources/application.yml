@@ -5,6 +5,18 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mission_db
     username: root
-    password: 3mirsammoolsom*
+    password: 0000
   application:
     name:sping
+  sql:
+    init:
+      mode:always
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        hbm2ddl.auto: update
+        default_batch_fetch_size: 1000
