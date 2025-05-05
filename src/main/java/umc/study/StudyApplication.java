@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import umc.study.service.ShopService.ShopQueryService;
 
+
 @SpringBootApplication
 @EnableJpaAuditing
 public class StudyApplication {
