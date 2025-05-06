@@ -13,23 +13,49 @@ java {
 	}
 }
 
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+def querydslDir = layout.buildDirectory.dir("generated/querydsl")
+
+tasks.withType(JavaCompile).configureEach {
+	options.generatedSourceOutputDirectory = querydslDir.get().asFile
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs += querydslDir.get().asFile
+		}
+	}
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-}
-
-repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/snapshot' }
+	querydsl.extendsFrom annotationProcessor
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
