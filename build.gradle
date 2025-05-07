@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.umc'
@@ -19,14 +20,57 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//queryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	/*implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'*/
+
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.9'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Querydsl 설정부
+def generated = 'src/main/generated'
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = generated
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ["src/main/java", generated]
+		}
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.annotationProcessorPath = configurations.querydsl
 }
