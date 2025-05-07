@@ -2,20 +2,29 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/umc_mission
     username: root
-    password:
+    password: 970154as
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
         use_sql_comments: true
-        hbm2ddl:
-          auto: update
+
+        # 1) 배치 페치 사이즈 (LAZY 컬렉션 일괄 조회용)
         default_batch_fetch_size: 1000
+
+        # 2) JDBC batch insert/update/delete 용 (saveAll 시 bulk batch)
+        jdbc:
+          batch_size: 50
+
   sql:
     init:
       mode: never
-  application:
-    name: Spring_Boot_B
+
+application:
+  name: Spring_Boot_B
