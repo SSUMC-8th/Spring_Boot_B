@@ -10,6 +10,7 @@ import umc.study.service.MemberSerivce.MemberService;
 import umc.study.service.MissionService.MissionService;
 import umc.study.service.ShopService.ShopQueryService;
 
+
 @SpringBootApplication
 @EnableJpaAuditing
 public class StudyApplication {
