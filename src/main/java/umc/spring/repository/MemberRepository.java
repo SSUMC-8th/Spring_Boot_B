@@ -1,4 +1,4 @@
-package umc.spring.repository;
+package umc.spring.repository.memberRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    @Query("SELECT m FROM Member m WHERE m.name = :name AND m.status = :status")
-    List<Member> findByNameAndStatus(@Param("name") String name, @Param("status") MemberStatus status);
 }
