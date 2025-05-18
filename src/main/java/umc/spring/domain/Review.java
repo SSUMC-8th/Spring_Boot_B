@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -32,5 +33,24 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+        if (!member.getReviewList().contains(this)) {
+            member.getReviewList().add(this);
+        }
+    }
+    public void setStore(Store store) {
+        this.store = store;
+        if (!store.getReviewList().contains(this)) {
+            store.getReviewList().add(this);
+        }
+    }
+    public void addReviewImage(ReviewImage image) {
+        this.reviewImageList.add(image);
+        image.setReview(this); // 연관관계 주인 쪽 설정
+    }
+
+
 
 }
