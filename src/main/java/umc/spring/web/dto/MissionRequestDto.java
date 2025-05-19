@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import umc.spring.validation.annotation.NotAlreadyChallenged;
 
 import java.time.LocalDate;
 
@@ -19,5 +20,14 @@ public class MissionRequestDto {
         Integer point;
         @Future
         LocalDate deadline;
+    }
+
+    @Getter
+    @NotAlreadyChallenged
+    public static class ChallengeMissionDto{
+        @NotNull
+        Long missionId;
+        @NotNull
+        Long memberId;
     }
 }
