@@ -1,4 +1,8 @@
 package umc.study.service.ReviewService;
 
-public class ReviewCommandService {
+import umc.study.domain.Review;
+import umc.study.dto.review.ReviewRequestDTO;
+
+public interface ReviewCommandService {
+    Review createReview(ReviewRequestDTO.CreateReviewRequest request, Long userId);
 }

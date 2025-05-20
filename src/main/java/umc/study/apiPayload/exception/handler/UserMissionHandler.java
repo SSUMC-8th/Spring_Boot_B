@@ -1,4 +1,10 @@
 package umc.study.apiPayload.exception.handler;
 
-public class UserMissionHandler {
+import umc.study.apiPayload.code.BaseErrorCode;
+import umc.study.apiPayload.exception.GeneralException;
+
+public class UserMissionHandler extends GeneralException {
+    public UserMissionHandler(BaseErrorCode errorCode) {
+        super(errorCode);
+    }
 }

@@ -1,4 +1,8 @@
 package umc.study.service.StoreService;
 
-public class StoreCommandService {
+import umc.study.domain.Store;
+import umc.study.dto.store.StoreRequestDTO;
+
+public interface StoreCommandService {
+    Store createStore(StoreRequestDTO.CreateStoreRequest request, Long ownerId);
 }
