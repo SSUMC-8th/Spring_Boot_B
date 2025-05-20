@@ -18,6 +18,7 @@ import umc.spring.apiPayload.ApiResponse;
 import umc.spring.apiPayload.ErrorReasonDTO;
 import umc.spring.apiPayload.code.ErrorStatus;
 
+import javax.swing.text.html.Option;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -33,7 +34,6 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .map(constraintViolation -> constraintViolation.getMessage())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
-
         return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
     }
 
@@ -49,8 +49,16 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                     errors.merge(fieldName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
                 });
 
+        e.getBindingResult().getGlobalErrors().stream()
+                .forEach(objectError->{
+                    String objectName = objectError.getObjectName();
+                    String errorMessage = Optional.ofNullable(objectError.getDefaultMessage()).orElse("");
+                    errors.put(objectName,errorMessage);
+                });
+
         return handleExceptionInternalArgs(e, HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
     }
+
 
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {

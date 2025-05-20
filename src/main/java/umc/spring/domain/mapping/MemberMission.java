@@ -20,6 +20,7 @@ public class MemberMission extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'WAIT'")
     private MissionStatus status;
 
@@ -35,5 +36,17 @@ public class MemberMission extends BaseEntity{
     @JoinColumn(name="mission_id")
     private Mission mission;
 
+    public void setMember(Member member){
+        this.member = member;
+        if(!member.getMemberMissionList().contains(this)){
+            member.getMemberMissionList().add(this);
+        }
+    }
+    public void setMission(Mission mission){
+        this.mission = mission;
+        if(!mission.getMemberMissionList().contains(this)){
+            mission.getMemberMissionList().add(this);
+        }
+    }
 
 }
