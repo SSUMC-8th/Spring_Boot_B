@@ -20,7 +20,17 @@ public class MemberSelectFoods extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "foods_id")
     private Foods foods;
+
+    public void setMember(Member member) {
+        if (this.member != null) {
+            member.getMemberSelectFoodsList().remove(this);
+        }
+        this.member = member;
+        member.getMemberSelectFoodsList().add(this);
+    }
+
 }

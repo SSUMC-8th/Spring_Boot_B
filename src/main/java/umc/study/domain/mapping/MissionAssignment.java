@@ -25,7 +25,7 @@ public class MissionAssignment extends BaseEntity {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Long uniqueNumber;
 
     @Enumerated(EnumType.STRING)
