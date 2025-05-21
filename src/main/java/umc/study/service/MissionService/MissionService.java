@@ -19,7 +19,6 @@ import java.util.List;
 public class MissionService {
 
     private final MissionRepository missionRepository;
-    private final MissionConverter missionConverter;
 
     public List<Mission> getAllMissions(Long memberId) {
         List<Mission> filteredMissions = missionRepository.missionsProgressAndCompleted(memberId);
@@ -38,7 +37,7 @@ public class MissionService {
     }
 
     public Mission joinMission(MissionRequestDTO.AddMissionDTO request, Shop shop) {
-        Mission mission = missionConverter.toMission(request, shop);
+        Mission mission = MissionConverter.toMission(request, shop);
 
         return missionRepository.save(mission);
     }

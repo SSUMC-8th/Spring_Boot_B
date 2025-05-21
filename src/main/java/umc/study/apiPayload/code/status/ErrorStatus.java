@@ -34,7 +34,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //미션 관련 에러
     MISSION_ALREADY_ASSIGNED(HttpStatus.ALREADY_REPORTED, "MISSION4001", "이미 도전중인 미션입니다."),
-    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION4002", "미션이 존재하지 않습니다.")
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION4002", "미션이 존재하지 않습니다."),
+
+    //지역 관련 에러
+    REGION_NOT_FOUND(HttpStatus.NOT_FOUND, "REGION4001", "지역이 존재하지 않습니다.")
     ;
 
     private final HttpStatus httpStatus;

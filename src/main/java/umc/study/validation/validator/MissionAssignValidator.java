@@ -5,17 +5,15 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import umc.study.apiPayload.code.status.ErrorStatus;
-import umc.study.domain.Member;
-import umc.study.domain.Mission;
 import umc.study.repository.MissionAssignmentRepository;
 import umc.study.service.MemberSerivce.MemberService;
 import umc.study.service.MissionService.MissionService;
 import umc.study.validation.annotation.AssignMission;
-import umc.study.web.dto.MissionChallengeRequestDTO;
+import umc.study.web.dto.MissionRequestDTO;
 
 @Component
 @RequiredArgsConstructor
-public class MissionAssignValidator implements ConstraintValidator<AssignMission, MissionChallengeRequestDTO.AssignMissionDTO> {
+public class MissionAssignValidator implements ConstraintValidator<AssignMission, MissionRequestDTO.AssignMissionDTO> {
 
     private final MissionAssignmentRepository missionAssignmentRepository;
     private final MemberService memberService;
@@ -27,12 +25,9 @@ public class MissionAssignValidator implements ConstraintValidator<AssignMission
     }
 
     @Override
-    public boolean isValid(MissionChallengeRequestDTO.AssignMissionDTO request, ConstraintValidatorContext context) {
+    public boolean isValid(MissionRequestDTO.AssignMissionDTO request, ConstraintValidatorContext context) {
 
-        Member member = memberService.findByName(request.getMissionMember());
-        Mission mission = missionService.findByMissionId(request.getMissionId());
-
-        boolean isValid = missionAssignmentRepository.existsMissionAssignmentByMemberAndMission(member, mission);
+        boolean isValid = missionAssignmentRepository.existsMissionAssignmentByMemberIdAndMissionId(request.getMissionMemberId(), request.getMissionId());
 
         if (isValid) {
             context.disableDefaultConstraintViolation();

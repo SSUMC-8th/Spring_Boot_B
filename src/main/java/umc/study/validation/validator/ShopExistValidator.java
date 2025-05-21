@@ -10,7 +10,7 @@ import umc.study.validation.annotation.ExistShop;
 
 @Component
 @RequiredArgsConstructor
-public class ShopExistValidator implements ConstraintValidator<ExistShop, String> {
+public class ShopExistValidator implements ConstraintValidator<ExistShop, Long> {
 
     private final ShopService shopService;
 
@@ -20,9 +20,12 @@ public class ShopExistValidator implements ConstraintValidator<ExistShop, String
     }
 
     @Override
-    public boolean isValid(String shopName, ConstraintValidatorContext context) {
+    public boolean isValid(Long shopId, ConstraintValidatorContext context) {
+        if (shopId == null) {
+            return true;
+        }
 
-        boolean isValid = shopService.existShop(shopName);
+        boolean isValid = shopService.existShop(shopId);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

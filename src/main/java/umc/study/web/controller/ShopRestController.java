@@ -17,7 +17,7 @@ import umc.study.web.dto.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/shops")
+@RequestMapping("/api/v1/shops")
 public class ShopRestController {
 
     private final ShopService shopService;
@@ -32,11 +32,9 @@ public class ShopRestController {
     }
 
     //가게에 리뷰 추가하기
-    @PostMapping("/{shopId}/reviews")
-    public ApiResponse<ReviewResponseDTO.ReviewResultDTO> saveReview(@RequestBody @Valid ReviewRequestDTO.WriteReviewDTO request,
-                                                                     @PathVariable("shopId") Long shopId) {
-        Shop shop = shopService.findById(shopId);
-        Review review = reviewService.joinReview(request, shop);
+    @PostMapping("/reviews")
+    public ApiResponse<ReviewResponseDTO.ReviewResultDTO> saveReview(@RequestBody @Valid ReviewRequestDTO.WriteReviewDTO request) {
+        Review review = reviewService.joinReview(request);
 
         return ApiResponse.onSuccess(ReviewConverter.toReviewResultDTO(review));
     }

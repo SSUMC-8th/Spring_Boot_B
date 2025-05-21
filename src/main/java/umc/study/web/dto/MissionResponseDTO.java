@@ -15,4 +15,13 @@ public class MissionResponseDTO {
         String shopName;
         String missionName;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionChallengeResultDTO {
+        String memberName;
+        String missionName;
+    }
 }

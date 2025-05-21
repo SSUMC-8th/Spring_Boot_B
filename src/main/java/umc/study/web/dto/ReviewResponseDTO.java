@@ -12,6 +12,9 @@ public class ReviewResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReviewResultDTO {
+        Long reviewId;
+        Long reviewerId;
+        Long shopId;
         String reviewerName;
         String shopName;
         Float reviewScore;

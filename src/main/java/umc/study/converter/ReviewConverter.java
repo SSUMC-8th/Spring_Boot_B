@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import umc.study.domain.Member;
 import umc.study.domain.Review;
 import umc.study.domain.Shop;
-import umc.study.service.MemberSerivce.MemberService;
 import umc.study.web.dto.ReviewRequestDTO;
 import umc.study.web.dto.ReviewResponseDTO;
 
@@ -13,21 +12,18 @@ import umc.study.web.dto.ReviewResponseDTO;
 @RequiredArgsConstructor
 public class ReviewConverter {
 
-    private final MemberService memberService;
-
     public static ReviewResponseDTO.ReviewResultDTO toReviewResultDTO(Review review) {
         return ReviewResponseDTO.ReviewResultDTO.builder()
+                .reviewId(review.getId())
+                .reviewerId(review.getId())
+                .shopId(review.getShop().getId())
                 .reviewerName(review.getMember().getName())
                 .shopName(review.getShop().getName())
                 .reviewScore(review.getStar())
                 .build();
     }
 
-    public Review toReview(ReviewRequestDTO.WriteReviewDTO request, Shop shop) {
-        String reviewer = request.getReviewer();
-
-        Member member = memberService.findByName(reviewer);
-
+    public static Review toReview(ReviewRequestDTO.WriteReviewDTO request, Member member, Shop shop) {
         return Review.builder()
                 .member(member)
                 .shop(shop)

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import umc.study.domain.Region;
 import umc.study.domain.Shop;
-import umc.study.repository.RegionRepository;
 import umc.study.web.dto.RegionShopRequestDTO;
 import umc.study.web.dto.RegionShopResponseDTO;
 
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class RegionShopConverter {
 
-    private final RegionRepository regionRepository;
-
     public static RegionShopResponseDTO.SaveShopResultDTO toSaveShopResultDTO(Shop shop) {
         return RegionShopResponseDTO.SaveShopResultDTO.builder()
                 .shopId(shop.getId())
@@ -24,13 +21,7 @@ public class RegionShopConverter {
                 .build();
     }
 
-    public Shop toShop(RegionShopRequestDTO.SaveShopDTO request) {
-
-        Long regionId = request.getRegionId();
-
-        Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new IllegalArgumentException("Region not found"));
-
+    public static Shop toShop(RegionShopRequestDTO.SaveShopDTO request, Region region) {
         return Shop.builder()
                 .region(region)
                 .name(request.getName())

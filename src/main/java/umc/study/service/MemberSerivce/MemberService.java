@@ -54,7 +54,7 @@ public class MemberService {
         return memberRepository.save(newMember);
     }
 
-    public Member findByName(String name) {
-        return memberRepository.findByName(name).orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
     }
 }
