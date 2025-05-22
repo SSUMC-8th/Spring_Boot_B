@@ -1,5 +1,7 @@
 package umc.study.service.ShopService;
 
+import org.springframework.data.domain.Page;
+import umc.study.domain.Review;
 import umc.study.domain.Shop;
 
 import java.util.List;
@@ -9,4 +11,5 @@ public interface ShopQueryService {
 
     Optional<Shop> findShop(Long id);
     List<Shop> findShopsByNameAndScore(String name, Float score);
+    Page<Review> getReviewList(Long shopId, Integer page);
 }
