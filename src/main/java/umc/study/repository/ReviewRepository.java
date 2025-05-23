@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import umc.study.domain.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-
     Page<Review> findAllByShopId(Long shopId, PageRequest pageRequest);
+    Page<Review> findAllByMemberId(Long memberId, PageRequest pageRequest);
 }

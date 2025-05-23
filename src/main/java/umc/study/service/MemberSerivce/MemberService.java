@@ -2,6 +2,8 @@ package umc.study.service.MemberSerivce;
 
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.study.apiPayload.code.status.ErrorStatus;
@@ -9,11 +11,13 @@ import umc.study.converter.MemberConverter;
 import umc.study.converter.MemberSelectFoodsConverter;
 import umc.study.domain.Foods;
 import umc.study.domain.Member;
+import umc.study.domain.Review;
 import umc.study.domain.mapping.MemberSelectFoods;
 import umc.study.exception.handler.FoodsHandler;
 import umc.study.exception.handler.GeneralHandler;
 import umc.study.repository.FoodsRepository;
 import umc.study.repository.MemberRepository.MemberRepository;
+import umc.study.repository.ReviewRepository;
 import umc.study.web.dto.MemberRequestDTO;
 
 
@@ -30,6 +34,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FoodsRepository foodsRepository;
+    private final ReviewRepository reviewRepository;
 
     public void myPage(Long memberId) {
         Tuple result = memberRepository.myPage(memberId);
@@ -54,7 +59,7 @@ public class MemberService {
         return memberRepository.save(newMember);
     }
 
-    public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
+    public Page<Review> getReviewList(Long memberId, Integer page) {
+        return reviewRepository.findAllByMemberId(memberId, PageRequest.of(page, 10));
     }
 }

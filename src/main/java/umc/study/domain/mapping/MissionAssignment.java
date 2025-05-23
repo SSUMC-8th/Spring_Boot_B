@@ -30,4 +30,11 @@ public class MissionAssignment extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MissionStatus missionStatus;
+
+    public void missionComplete() {
+        if (this.missionStatus != MissionStatus.PROGRESS) {
+            throw new IllegalStateException("미션이 진행중이지 않습니다.");
+        }
+        this.missionStatus = MissionStatus.COMPLETE;
+    }
 }

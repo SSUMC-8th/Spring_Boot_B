@@ -7,10 +7,11 @@ import umc.study.apiPayload.code.status.ErrorStatus;
 import umc.study.converter.MissionConverter;
 import umc.study.domain.Member;
 import umc.study.domain.Mission;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.MissionAssignment;
 import umc.study.exception.handler.GeneralHandler;
 import umc.study.repository.MemberRepository.MemberRepository;
-import umc.study.repository.MissionAssignmentRepository;
+import umc.study.repository.MissionAssignmentRepository.MissionAssignmentRepository;
 import umc.study.repository.MissionRepository.MissionRepository;
 import umc.study.web.dto.MissionRequestDTO;
 
@@ -34,5 +35,13 @@ public class MissionAssignmentService {
         MissionAssignment missionAssignment = MissionConverter.toMissionAssignment(request, member, mission);
 
         return missionAssignmentRepository.save(missionAssignment);
+    }
+
+    public MissionAssignment completeMission(Long memberId, Long missionId) {
+        MissionAssignment missionAssignment = missionAssignmentRepository.findMissionAssignmentByMemberIdAndMissionId(memberId, missionId);
+        if (missionAssignment.getMissionStatus().equals(MissionStatus.PROGRESS)) {
+            missionAssignment.missionComplete();
+        }
+        return missionAssignment;
     }
 }
