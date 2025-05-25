@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.spring.domain.enums.MissionStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,28 @@ public class MemberResponseDto {
         String content;
         Float score;
         LocalDate createdAt;
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MissionPreviewListDto{
+        List<MemberResponseDto.MissionPreviewDto> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MissionPreviewDto{
+        String description;
+        MissionStatus status;
+        Integer point;
+        LocalDate deadline;
     }
 
 }
