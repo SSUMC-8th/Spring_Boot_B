@@ -5,4 +5,5 @@ import umc.spring.web.dto.StoreRequestDto;
 
 public interface StoreCommandService {
     public Store addStore(StoreRequestDto.AddStoreToRegionDto request);
+
 }

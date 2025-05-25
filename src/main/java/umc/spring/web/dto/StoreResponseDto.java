@@ -38,4 +38,25 @@ public class StoreResponseDto {
         String content;
         LocalDate createdAt;
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MissionPreviewListDto{
+        List<StoreResponseDto.MissionPreviewDto> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MissionPreviewDto{
+        String description;
+        Integer point;
+        LocalDate deadline;
+    }
 }
