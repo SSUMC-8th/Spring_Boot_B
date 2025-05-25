@@ -26,8 +26,9 @@ public enum ErrorStatus implements BaseErrorCode {
     STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "가게가 존재하지 않습니다."),
     //Region 관련 에러
     REGION_NOT_EXIST(HttpStatus.BAD_REQUEST, "REGION4001", "지역이 존재하지 않습니다."),
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "test exception");
-
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "test exception"),
+    //Page 관련 에러
+    PAGE_NOT_EXIST(HttpStatus.BAD_REQUEST, "PAGE4001", "존재하지 않는 페이지입니다.");
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
