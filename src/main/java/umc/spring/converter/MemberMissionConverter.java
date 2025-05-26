@@ -29,6 +29,7 @@ public class MemberMissionConverter {
                 .build();
     }
 
+
     public static MemberResponseDto.MissionPreviewDto missionPreviewDto(MemberMission memberMission){
         Mission mission = memberMission.getMission();
 
@@ -51,6 +52,16 @@ public class MemberMissionConverter {
                 .totalElements(missionList.getTotalElements())
                 .listSize(missionPreviewList.size())
                 .missionList(missionPreviewList)
+                .build();
+    }
+
+    public static MissionResponseDto.CompleteMissionResultDto completeMissionDto(MemberMission memberMission){
+        return MissionResponseDto.CompleteMissionResultDto.builder()
+                .storeName(memberMission.getMission().getStore().getName())
+                .description(memberMission.getMission().getDescription())
+                .completedAt(memberMission.getCompletedAt())
+                .point(memberMission.getMission().getPoint())
+                .status(memberMission.getStatus())
                 .build();
     }
 }
