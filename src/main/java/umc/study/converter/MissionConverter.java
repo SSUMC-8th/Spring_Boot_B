@@ -1,13 +1,15 @@
 package umc.study.converter;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Page;
 import umc.study.domain.Area;
 import umc.study.domain.Mission;
 import umc.study.domain.Store;
 import umc.study.dto.mission.MissionRequestDTO;
 import umc.study.dto.mission.MissionResponseDTO;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MissionConverter {
 
@@ -54,6 +56,45 @@ public class MissionConverter {
                 .endDate(mission.getEndDate())
                 .status(mission.getStatus())
                 .createdAt(mission.getCreatedAt())
+                .build();
+    }
+
+    // Mission -> MissionPreviewDTO 변환
+    public static MissionResponseDTO.MissionPreviewDTO toMissionPreviewDTO(Mission mission) {
+        Store store = mission.getStore();
+        Area area = mission.getArea();
+        String areaFullName = area.getProvince() + " " + area.getCity() + " " + area.getTown();
+
+        return MissionResponseDTO.MissionPreviewDTO.builder()
+                .missionId(mission.getId())
+                .title(mission.getTitle())
+                .description(mission.getDescription())
+                .condition(mission.getCondition())
+                .rewardType(mission.getRewardType())
+                .rewardAmount(mission.getRewardAmount())
+                .uniqueCode(mission.getUniqueCode())
+                .minimumPurchaseAmount(mission.getMinimumPurchaseAmount())
+                .startDate(mission.getStartDate())
+                .endDate(mission.getEndDate())
+                .status(mission.getStatus())
+                .storeName(store.getName())
+                .areaInfo(areaFullName)
+                .build();
+    }
+
+    // Page<Mission> -> MissionPreviewListDTO 변환 (Stream 사용)
+    public static MissionResponseDTO.MissionPreviewListDTO toMissionPreviewListDTO(Page<Mission> missionPage) {
+        List<MissionResponseDTO.MissionPreviewDTO> missionPreviewDTOList = missionPage.stream()
+                .map(MissionConverter::toMissionPreviewDTO)
+                .collect(Collectors.toList());
+
+        return MissionResponseDTO.MissionPreviewListDTO.builder()
+                .missionList(missionPreviewDTOList)
+                .listSize(missionPreviewDTOList.size())
+                .totalPage(missionPage.getTotalPages())
+                .totalElements(missionPage.getTotalElements())
+                .isFirst(missionPage.isFirst())
+                .isLast(missionPage.isLast())
                 .build();
     }
 
