@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import umc.study.domain.*;
-import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.QMissionAssignment;
 
 import java.util.List;

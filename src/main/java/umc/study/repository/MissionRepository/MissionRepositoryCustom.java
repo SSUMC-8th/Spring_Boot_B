@@ -1,7 +1,6 @@
 package umc.study.repository.MissionRepository;
 
 import umc.study.domain.Mission;
-import umc.study.domain.Region;
 
 import java.util.List;
 

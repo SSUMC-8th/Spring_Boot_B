@@ -4,14 +4,16 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import umc.study.apiPayload.code.status.ErrorStatus;
-import umc.study.converter.MissionAssignConverter;
+import umc.study.converter.MissionConverter;
 import umc.study.domain.Member;
+import umc.study.domain.Mission;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.MissionAssignment;
 import umc.study.exception.handler.GeneralHandler;
-import umc.study.repository.MissionAssignmentRepository;
-import umc.study.web.dto.MissionChallengeRequestDTO;
-
-import java.util.List;
+import umc.study.repository.MemberRepository.MemberRepository;
+import umc.study.repository.MissionAssignmentRepository.MissionAssignmentRepository;
+import umc.study.repository.MissionRepository.MissionRepository;
+import umc.study.web.dto.MissionRequestDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -19,20 +21,27 @@ import java.util.List;
 public class MissionAssignmentService {
 
     private final MissionAssignmentRepository missionAssignmentRepository;
-    private final MissionAssignConverter missionAssignConverter;
+    private final MemberRepository memberRepository;
+    private final MissionRepository missionRepository;
 
-    public MissionAssignment challengeMission(MissionChallengeRequestDTO.AssignMissionDTO request) {
-        MissionAssignment missionAssignment = missionAssignConverter.toMissionAssignment(request);
-        Member member = missionAssignment.getMember();
+    public MissionAssignment challengeMission(MissionRequestDTO.AssignMissionDTO request, Long missionId) {
 
-        List<MissionAssignment> assignments = missionAssignmentRepository.findMissionAssignmentsByMember(member);
+        Member member = memberRepository.findById(request.getMissionMemberId())
+                .orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        for (MissionAssignment assignment : assignments) {
-            if (assignment.getMission().getId().equals(missionAssignment.getMission().getId())) {
-                throw new GeneralHandler(ErrorStatus.MISSION_ALREADY_ASSIGNED);
-            }
-        }
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new GeneralHandler(ErrorStatus.MISSION_NOT_FOUND));
+
+        MissionAssignment missionAssignment = MissionConverter.toMissionAssignment(request, member, mission);
 
         return missionAssignmentRepository.save(missionAssignment);
+    }
+
+    public MissionAssignment completeMission(Long memberId, Long missionId) {
+        MissionAssignment missionAssignment = missionAssignmentRepository.findMissionAssignmentByMemberIdAndMissionId(memberId, missionId);
+        if (missionAssignment.getMissionStatus().equals(MissionStatus.PROGRESS)) {
+            missionAssignment.missionComplete();
+        }
+        return missionAssignment;
     }
 }
