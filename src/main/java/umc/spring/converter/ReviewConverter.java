@@ -1,13 +1,15 @@
 package umc.spring.converter;
 
-import umc.spring.domain.Member;
+import org.springframework.data.domain.Page;
 import umc.spring.domain.Review;
-import umc.spring.domain.Store;
 import umc.spring.web.dto.ReviewRequestDto;
 import umc.spring.web.dto.ReviewResponseDto;
+import umc.spring.web.dto.StoreResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewConverter {
     public static ReviewResponseDto.ReviewAddResultDto toReviewAddResultDto(Review review){
@@ -24,5 +26,27 @@ public class ReviewConverter {
                 .reviewImageList(new ArrayList<>())
                 .build();
 
+    }
+
+    public static StoreResponseDto.ReviewPreviewDto reviewPreviewDto(Review review){
+        return StoreResponseDto.ReviewPreviewDto.builder()
+                .ownerNickname(review.getMember().getName())
+                .score(review.getScore())
+                .createdAt(review.getCreatedAt().toLocalDate())
+                .content(review.getContent())
+                .build();
+    }
+    public static StoreResponseDto.ReviewPreviewListDto reviewPreviewListDto(Page<Review> reviewList){
+        List<StoreResponseDto.ReviewPreviewDto> reviewPreviewDtoList = reviewList.stream().
+                map(ReviewConverter::reviewPreviewDto).collect(Collectors.toList());
+
+        return StoreResponseDto.ReviewPreviewListDto.builder()
+                .isLast(reviewList.isLast())
+                .isFirst(reviewList.isFirst())
+                .totalPage(reviewList.getTotalPages())
+                .totalElements(reviewList.getTotalElements())
+                .listSize(reviewPreviewDtoList.size())
+                .reviewList(reviewPreviewDtoList)
+                .build();
     }
 }

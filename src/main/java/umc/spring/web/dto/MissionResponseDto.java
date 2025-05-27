@@ -27,4 +27,15 @@ public class MissionResponseDto {
         MissionStatus status;
         LocalDateTime createdAt;
     }
+
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class CompleteMissionResultDto{
+        MissionStatus status;
+        String storeName;
+        String description;
+        Integer point;
+        LocalDateTime completedAt;
+    }
 }

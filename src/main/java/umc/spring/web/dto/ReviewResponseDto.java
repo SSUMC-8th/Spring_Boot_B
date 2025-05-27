@@ -3,9 +3,10 @@ package umc.spring.web.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResponseDto {
 
@@ -16,4 +17,9 @@ public class ReviewResponseDto {
         Long reviewId;
         LocalDateTime createdAt;
     }
+
+
+
+
+
 }

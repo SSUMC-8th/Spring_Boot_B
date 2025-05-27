@@ -7,4 +7,5 @@ import umc.spring.web.dto.MissionRequestDto;
 public interface MemberMissionCommandService {
     MemberMission challengeMission(MissionRequestDto.ChallengeMissionDto request);
     boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
+    MemberMission setMissionComplete(Long missionId, Long memberId);
 }
