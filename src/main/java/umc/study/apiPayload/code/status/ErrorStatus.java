@@ -42,9 +42,10 @@ public enum ErrorStatus implements BaseErrorCode {
     // 사용자 미션 관련
     MISSION_ALREADY_IN_PROGRESS(HttpStatus.CONFLICT, "USERMISSION4003", "이미 도전 중인 미션입니다."),
     MISSION_NOT_STARTED(HttpStatus.BAD_REQUEST, "USERMISSION4004", "아직 시작되지 않은 미션입니다."),
-    MISSION_ENDED(HttpStatus.BAD_REQUEST, "USERMISSION4005", "이미 종료된 미션입니다.");
-
-
+    MISSION_ENDED(HttpStatus.BAD_REQUEST, "USERMISSION4005", "이미 종료된 미션입니다."),
+    USER_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_MISSION4004", "사용자 미션을 찾을 수 없습니다."),
+    
+    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "COMMON4003", "페이지는 1 이상이어야 합니다.");
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
