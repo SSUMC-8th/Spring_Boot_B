@@ -39,7 +39,7 @@ public class ShopRestController {
 
     //특정 지역에 가게 추가하기
     @PostMapping
-    public ApiResponse<RegionShopResponseDTO.SaveShopResultDTO> save(@RequestBody RegionShopRequestDTO.SaveShopDTO request) {
+    public ApiResponse<RegionShopResponseDTO.SaveShopResultDTO> save(@RequestBody @Valid RegionShopRequestDTO.SaveShopDTO request) {
         Shop shop = shopService.joinShop(request);
         return ApiResponse.onSuccess(RegionShopConverter.toSaveShopResultDTO(shop));
     }
@@ -54,7 +54,7 @@ public class ShopRestController {
 
     //가게에 미션 추가하기
     @PostMapping("/{shopId}/missions")
-    public ApiResponse<MissionResponseDTO.MissionResultDTO> saveMission(@RequestBody MissionRequestDTO.AddMissionDTO request,
+    public ApiResponse<MissionResponseDTO.MissionResultDTO> saveMission(@RequestBody @Valid MissionRequestDTO.AddMissionDTO request,
                                                                         @PathVariable("shopId") Long shopId) {
         Shop shop = shopService.findById(shopId);
         Mission mission = missionService.joinMission(request, shop);
