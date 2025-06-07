@@ -33,10 +33,13 @@ public class MemberConverter {
         }
 
         return Member.builder()
-                .address(request.getAddress())
-                .gender(gender)
                 .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .gender(gender)
                 .age(request.getAge())
+                .address(request.getAddress())
+                .role(request.getRole())
                 .memberSelectFoodsList(new ArrayList<>())
                 .build();
     }

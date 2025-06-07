@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.Gender;
 import umc.study.domain.enums.MemberStatus;
+import umc.study.domain.enums.Role;
 import umc.study.domain.mapping.MemberSelectFoods;
 import umc.study.domain.mapping.MissionAssignment;
 
@@ -44,8 +45,14 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 40)
     private String address;
 
-//    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ColumnDefault("0")
     private Integer point;
@@ -65,4 +72,8 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Alert> alertList = new ArrayList<>();
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
