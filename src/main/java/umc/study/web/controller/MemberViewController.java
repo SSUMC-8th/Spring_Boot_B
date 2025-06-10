@@ -1,4 +1,4 @@
-package umc.study.web.controller;
+/*package umc.study.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -53,4 +53,4 @@ public class MemberViewController {
     public String admin() {
         return "admin";
     }
-}
+}*/
