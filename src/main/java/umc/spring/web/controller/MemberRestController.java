@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,10 +38,26 @@ public class MemberRestController {
     private final MemberQueryService memberQueryService;
     private final MemberMissionQueryService memberMissionQueryService;
 
-    @PostMapping("/")
+    @PostMapping("/join")
+    @Operation(summary = "유저 회원가입 API",description = "유저가 회원가입하는 API입니다.")
     public ApiResponse<MemberResponseDto.JoinResultDTO> join(@RequestBody @Valid MemberRequestDto.JoinDto request){
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    public ApiResponse<MemberResponseDto.LoginResultDto> login(@RequestBody @Valid MemberRequestDto.LoginRequestDto request) {
+        return ApiResponse.onSuccess(memberCommandService.loginMember(request));
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN") }
+    )
+    public ApiResponse<MemberResponseDto.MemberInfoDto> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(memberQueryService.getMemberInfo(request));
     }
 
     @GetMapping("{memberId}/reviews")

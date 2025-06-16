@@ -1,13 +1,10 @@
-package umc.spring.repository.memberRepository;
+package umc.spring.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import umc.spring.domain.Member;
-import umc.spring.domain.enums.MemberStatus;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-
+    Optional<Member> findByEmail(String email);
 }

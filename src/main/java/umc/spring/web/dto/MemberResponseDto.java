@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.MissionStatus;
 
 import java.time.LocalDate;
@@ -62,6 +63,22 @@ public class MemberResponseDto {
         MissionStatus status;
         Integer point;
         LocalDate deadline;
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class LoginResultDto{
+        Long memberId;
+        String accessToken;
+    }
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MemberInfoDto{
+        String name;
+        String email;
+        Gender gender;
     }
 
 }

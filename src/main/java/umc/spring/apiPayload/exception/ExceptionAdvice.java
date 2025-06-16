@@ -29,14 +29,14 @@ import java.util.Optional;
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
 
-//    @ExceptionHandler
-//    public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
-//        String errorMessage = e.getConstraintViolations().stream()
-//                .map(constraintViolation -> constraintViolation.getMessage())
-//                .findFirst()
-//                .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
-//        return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
-//    }
+    @ExceptionHandler
+    public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
+        String errorMessage = e.getConstraintViolations().stream()
+                .map(constraintViolation -> constraintViolation.getMessage())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
+        return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
+    }
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -74,24 +74,24 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(generalException,errorReasonHttpStatus,null,request);
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
-        String errorKey = ex.getConstraintViolations().stream()
-                .map(v -> v.getMessage())
-                .findFirst()
-                .orElse("INVALID_REQUEST");
-
-        ErrorStatus status;
-
-        switch (errorKey) {
-            case "STORE_NOT_FOUND" -> status = ErrorStatus.STORE_NOT_FOUND;
-            case "PAGE_NOT_EXIST" -> status = ErrorStatus.PAGE_NOT_EXIST;
-            default -> status = ErrorStatus._BAD_REQUEST;
-        }
-
-        ApiResponse<Object> body = ApiResponse.onFailure(status.getCode(), status.getMessage(), null);
-        return ResponseEntity.status(status.getHttpStatus()).body(body);
-    }
+//    @ExceptionHandler(value = ConstraintViolationException.class)
+//    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+//        String errorKey = ex.getConstraintViolations().stream()
+//                .map(v -> v.getMessage())
+//                .findFirst()
+//                .orElse("INVALID_REQUEST");
+//
+//        ErrorStatus status;
+//
+//        switch (errorKey) {
+//            case "STORE_NOT_FOUND" -> status = ErrorStatus.STORE_NOT_FOUND;
+//            case "PAGE_NOT_EXIST" -> status = ErrorStatus.PAGE_NOT_EXIST;
+//            default -> status = ErrorStatus._BAD_REQUEST;
+//        }
+//
+//        ApiResponse<Object> body = ApiResponse.onFailure(status.getCode(), status.getMessage(), null);
+//        return ResponseEntity.status(status.getHttpStatus()).body(body);
+//    }
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ErrorReasonDTO reason,
                                                            HttpHeaders headers, HttpServletRequest request) {

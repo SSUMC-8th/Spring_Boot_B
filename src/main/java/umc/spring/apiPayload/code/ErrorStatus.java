@@ -30,7 +30,9 @@ public enum ErrorStatus implements BaseErrorCode {
     REGION_NOT_EXIST(HttpStatus.BAD_REQUEST, "REGION4001", "지역이 존재하지 않습니다."),
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "test exception"),
     //Page 관련 에러
-    PAGE_NOT_EXIST(HttpStatus.BAD_REQUEST, "PAGE4001", "존재하지 않는 페이지입니다.");
+    PAGE_NOT_EXIST(HttpStatus.BAD_REQUEST, "PAGE4001", "존재하지 않는 페이지입니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "TOKEN4001", "존재하지 않는 토큰입니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "TOKEN4001", "비밀번호가 일치하지 않습니다.");
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
