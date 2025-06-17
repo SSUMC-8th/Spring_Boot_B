@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,10 +40,29 @@ public class MemberRestController {
     private final MissionService missionService;
     private final MissionAssignmentService missionAssignmentService;
 
-    @PostMapping("/")
+    //회원가입
+    @PostMapping("/join")
+    @Operation(summary = "유저 회원가입 API", description = "유저가 회원가입하는 API입니다.")
     public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@RequestBody @Valid MemberRequestDTO.JoinDTO request) {
         Member member = memberService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
+    }
+
+    //유저 로그인
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API", description = "유저가 로그인하는 API입니다.")
+    public ApiResponse<MemberResponseDTO.LoginResultDTO> login(@RequestBody @Valid MemberRequestDTO.LoginRequestDTO request) {
+        return ApiResponse.onSuccess(memberService.loginMember(request));
+    }
+
+    //유저 내 정보 조회
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN")}
+    )
+    public ApiResponse<MemberResponseDTO.MemberInfoDTO> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(memberService.getMemberInfo(request));
     }
 
     //내가 작성한 리뷰 목록 조회
@@ -57,7 +78,7 @@ public class MemberRestController {
             @Parameter(name = "memberId", description = "사용자의 아이디, path variable 입니다!")
     })
     public ApiResponse<ReviewResponseDTO.ReviewPreviewListDTO> getMyReviewList(@PathVariable(name = "memberId") Long memberId,
-                                                                               @CheckPage @Valid @RequestParam(name = "page") Integer page) {
+                                                                               @CheckPage @RequestParam(name = "page") Integer page) {
         Page<Review> reviewList = memberService.getReviewList(memberId, --page);
         return ApiResponse.onSuccess(ReviewConverter.toReviewPreviewListDTO(reviewList));
     }
