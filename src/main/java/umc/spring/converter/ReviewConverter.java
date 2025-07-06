@@ -2,6 +2,7 @@ package umc.spring.converter;
 
 import org.springframework.data.domain.Page;
 import umc.spring.domain.Review;
+import umc.spring.web.dto.MemberResponseDto;
 import umc.spring.web.dto.ReviewRequestDto;
 import umc.spring.web.dto.ReviewResponseDto;
 import umc.spring.web.dto.StoreResponseDto;
@@ -49,4 +50,5 @@ public class ReviewConverter {
                 .reviewList(reviewPreviewDtoList)
                 .build();
     }
+
 }

@@ -20,12 +20,28 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResponseDto.LoginResultDto toLoginResultDto(Long memberId, String accessToken){
+        return MemberResponseDto.LoginResultDto.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberResponseDto.MemberInfoDto toMemberInfoDto(Member member){
+        return MemberResponseDto.MemberInfoDto.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .gender(member.getGender())
+                .build();
+    }
+
     public static Member toMember(MemberRequestDto.JoinDto request){
-        Gender gender = switch (request.getGender()){
-            case 1 -> Gender.MALE;
-            case 2 -> Gender.FEMALE;
-            default -> null;
-        };
+        Gender gender = null;
+        switch (request.getGender()) {
+            case 1: gender = Gender.MALE; break;
+            case 2: gender = Gender.FEMALE; break;
+            case 3: gender = Gender.UNKNOWN; break;
+        }
         return Member.builder()
                 .address(request.getAddress())
                 .gender(gender)
@@ -33,6 +49,7 @@ public class MemberConverter {
                 .birth(request.getBirth())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
+                .role(request.getRole())
                 .memberFoodList(new ArrayList<>())
                 .build();
     }
